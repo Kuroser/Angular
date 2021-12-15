@@ -1,0 +1,70 @@
+<p>login works!</p>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<img src="./../../assets/images/cabecera.png">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<h3><strong>Acceso a agapea.com</strong></h3>
+				<p>Para poder disfrutar de algunos de nuestros servicios, debes estar registrado. Registrarse en apapea.com es rapido y facil y GRATIS!</p>
+			</div>
+		</div>
+
+		<!--
+		{{#if mensajeError}}
+			<div class="row">
+				<div class="col">
+					<span class="text-danger">{{mensajeError}}</span>
+				</div>
+			</div>
+		{{/if}}
+		-->
+
+
+		<div class="row">
+			<div class="col-4">
+				<div>
+					<h3>Identificate con...</h3><br />
+					<a href="">
+						<img src="./../../assets/images/boton_Google.png" />
+					</a>
+					<small>o bien con tu usuario de agapea</small>
+				</div>
+
+				<form id="formlogin" method="post" action="http://localhost:3000/Cliente/Login">
+					<div class="form-group">
+						<label for="email"><strong>Correo Electronico:</strong></label>
+						<input id="email" type="email" name="email" class="form-control" placeholder="inicia sesion con tu email" />
+					</div>
+
+					<div class="form-group">
+						<label for="password"><strong>Contraseña:</strong></label>
+						<input id="password" type="password" name="password" class="form-control" placeholder="introduce tu password" />
+						<a href="http://localhost:3000/Cliente/CompruebaEmail" style="color:cornflowerblue">Olvido su contraseña?</a>
+					</div>
+					
+					<!--
+				   cuando hago click en enlace q simula boton provoco submit del formulario
+					OJO!! no es conveniente poner sentencias javascript dentro de tags html
+				-->
+					<a href="javascript:;" onclick="document.forms['formlogin'].submit()" class="btn btn-primary">
+						<img src="./../../assets/images/BotonLoginUsuario.png" />
+					</a>
+
+				</form>
+
+
+			</div>
+
+			<div class="col-8">
+				<img src="./../../assets/images/formLogin.png"/>
+				<a [routerLink]="['/Cliente/Registro']" routerLinkActive="router-link-active">
+					<img src="./../../assets/images/BotonRegistrarUsuario.png" />
+				</a>
+			</div>
+		</div>
+	</div>
