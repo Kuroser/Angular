@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IProvincia } from 'src/app/modelos/provincia';
+import { CloudfirebaseService } from 'src/app/servicios/cloudfirebase.service';
 
 @Component({
 	selector: 'app-registro',
@@ -12,7 +13,7 @@ export class RegistroComponent implements OnInit {
 	public listProvs:Array<IProvincia>=[];
 	public miform:FormGroup;
 
-	constructor() {
+	constructor(private _accesoFirebase: CloudfirebaseService) {
 		/*
 			Creamos el formulario y los controles que vamos a mapear contra
 			elementos del Dom de la vista registro.component.html
@@ -44,7 +45,21 @@ export class RegistroComponent implements OnInit {
 		//Inicializamos variable listProvs(No testeable hasta que cree
 		//                                 la base de datos en firebase)
 		//Para ello necesitamos acceder a firebase:
-		
+		this._accesoFirebase.devolverProvincias().subscribe(
+			datos => {this.listProvs=<IProvincia[]>datos}
+		);
+		var isOrdered = true;
+		while(isOrdered){
+			for(let i = 0 ; i < this.listProvs.length-1; i++){
+				var swapper:IProvincia;
+				if(this.listProvs[i].NombreProvincia.charAt(0) > this.listProvs[i+1].NombreProvincia.charAt(0)){
+					swapper = this.listProvs[i+1];
+					this.listProvs[i+1] = this.listProvs[i];
+					this.listProvs[i+1] = swapper;
+					isOrdered = false;
+				}
+			}
+		}
 	}
 
 }
