@@ -1,6 +1,6 @@
 export interface ICredenciales{
     login: string;
     email: string;
-    hashpassword: string;
+    password: string;
     cliente: string;
 }

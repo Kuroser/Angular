@@ -120,6 +120,9 @@
 									pet.ajax para recuperar municipios de prov.seleccionada
 									!!!QUITAMOS ATRIBUTO DISABLED!!
 								-->
+								<option *ngFor="let unmuni of listaMunis" [value] = "unmuni.CodPro">
+									{{unmuni.NombreMunicipio}}
+								</option>
 							</select>
 							</div>
 							<div class="form-group col-md-2">

@@ -7,10 +7,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //modulos de firebase....
-import { AngularFireModule } from '@angular/fire'; //<--- establece conexion contra firebase
-import { AngularFireAuthModule } from '@angular/fire/auth'; //<---modulo para registro/autentificacion/autorizacion usuarios
-import { AngularFirestoreModule } from '@angular/fire/firestore'; //<----modulo para subida de ficheros a firebase
-import { AngularFireStorageModule } from '@angular/fire/storage'; //<--- modulo para CRUD contra colecciones del Cloud-Storage
+
+import { AngularFireModule } from '@angular/fire/compat'; //<--- establece conexion contra firebase
+import { AngularFireAuthModule } from '@angular/fire/compat/auth'; //<---modulo para registro/autentificacion/autorizacion usuarios
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';//<----modulo para subida de ficheros a firebase
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';//<--- modulo para CRUD contra colecciones del Cloud-Storage
 
 //--------------- importacion componentes a nivel app ----------------------
 import { AppComponent } from './app.component';
@@ -34,10 +35,9 @@ import { CloudfirebaseService } from './servicios/cloudfirebase.service';
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
-    AppRoutingModule,
-    CloudfirebaseService
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [CloudfirebaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { } 

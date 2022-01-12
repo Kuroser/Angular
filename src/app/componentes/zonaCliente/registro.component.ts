@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IMunicipo } from 'src/app/modelos/municipio';
 import { IProvincia } from 'src/app/modelos/provincia';
+import { ICliente } from 'src/app/modelos/cliente';
 import { CloudfirebaseService } from 'src/app/servicios/cloudfirebase.service';
+import { IDireccion } from 'src/app/modelos/direccion';
 
 @Component({
 	selector: 'app-registro',
@@ -12,6 +15,7 @@ export class RegistroComponent implements OnInit {
 	//Las propiedades públicas de la clase pueden ser accedidasd desde la vista.
 	public listProvs:Array<IProvincia>=[];
 	public miform:FormGroup;
+	public listaMunis:Array<IMunicipo>=[];
 
 	constructor(private _accesoFirebase: CloudfirebaseService) {
 		/*
@@ -48,18 +52,43 @@ export class RegistroComponent implements OnInit {
 		this._accesoFirebase.devolverProvincias().subscribe(
 			datos => {this.listProvs=<IProvincia[]>datos}
 		);
-		var isOrdered = true;
-		while(isOrdered){
-			for(let i = 0 ; i < this.listProvs.length-1; i++){
-				var swapper:IProvincia;
-				if(this.listProvs[i].NombreProvincia.charAt(0) > this.listProvs[i+1].NombreProvincia.charAt(0)){
-					swapper = this.listProvs[i+1];
-					this.listProvs[i+1] = this.listProvs[i];
-					this.listProvs[i+1] = swapper;
-					isOrdered = false;
-				}
-			}
-		}
 	}
 
+	cargaMunicipios(CodPro:number){
+		this._accesoFirebase.devolverMunicipios(CodPro).subscribe(
+			datos => {this.listaMunis=<IMunicipo[]>datos}
+		)
+	}
+	registrarCliente(){
+		let _valoresFormulario = this.miform.value;
+		let _nuevoCliente:ICliente = {
+			apellidos: _valoresFormulario.apellidos,
+			credenciales: {
+				login: _valoresFormulario.login,
+				cliente: _valoresFormulario.cliente,
+				email: _valoresFormulario.email,
+				password: _valoresFormulario.password
+			},
+			cuentaActiva: false,
+			direcciones: <IDireccion>{},
+			/*
+			direcciones:[
+				{
+					calle:_valoresFormulario.calle,
+					cp:_valoresFormulario.cp,
+					municipio: ,
+					provincia: 
+				}
+			],*/
+			nif:_valoresFormulario.nif,
+			nombre:_valoresFormulario.nombre,
+			telefono: _valoresFormulario.telefono
+		}
+		console.log(_nuevoCliente);
+		this._accesoFirebase.registrarDatosCliente(_nuevoCliente).subscribe(
+			datos=>{
+				console.log(datos.data());
+			}
+		);
+	}
 }
