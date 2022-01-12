@@ -5,6 +5,7 @@ import { IProvincia } from 'src/app/modelos/provincia';
 import { ICliente } from 'src/app/modelos/cliente';
 import { CloudfirebaseService } from 'src/app/servicios/cloudfirebase.service';
 import { IDireccion } from 'src/app/modelos/direccion';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-registro',
@@ -17,7 +18,7 @@ export class RegistroComponent implements OnInit {
 	public miform:FormGroup;
 	public listaMunis:Array<IMunicipo>=[];
 
-	constructor(private _accesoFirebase: CloudfirebaseService) {
+	constructor(private _accesoFirebase: CloudfirebaseService,private _router:Router) {
 		/*
 			Creamos el formulario y los controles que vamos a mapear contra
 			elementos del Dom de la vista registro.component.html
@@ -87,7 +88,7 @@ export class RegistroComponent implements OnInit {
 		console.log(_nuevoCliente);
 		this._accesoFirebase.registrarDatosCliente(_nuevoCliente).subscribe(
 			datos=>{
-				console.log(datos.data());
+				console.log(datos);
 			}
 		);
 	}

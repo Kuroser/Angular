@@ -1,4 +1,4 @@
-import { ICredenciales } from "./credenciales";
+import { ICredenciales} from "./credenciales";
 import { IDireccion } from "./direccion";
 
 export interface ICliente {
