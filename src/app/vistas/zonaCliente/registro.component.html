@@ -1,190 +1,153 @@
-<head>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-<body>
-<p>registro works!</p>
 <div class="container">
 	<div class="row">
 		<div class="col">
-			<img src="/public/images/cabecera.png">
+			<img src="../../../assets/images/cabecera.png">
 		</div>
 	</div>
-
 	<div class="row">
 		<div class="col">
 			<h2><strong>Registro en agapea.com</strong></h2>
-		<p>Tienes tres opciones para registrarte en Agapea.com. Puedes hacerlo a través de las redes sociales Facebook o Google en 4 segundos. 
-			También puedes registrarte con nosotros en menos de 40 segundos. Tan solo rellena el formulario con tus datos.</p>
-			<hr>
-		<p>En ambos casos, recibirás un correo electrónico en tu cuenta con un enlace con el que confirmarás tus datos, y estarás disfrutando de nuestros servicios y ventajas. </p>
-  
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col">
-			<form [formGroup]="miform">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">Datos de Mi Perfil...</h5>
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="inputLogin"><strong>Usuario (nickname)</strong></label>
-								<input type="text" class="form-control" id="inputLogin" FormControlName="login" placeholder="escribe aqui tu nick...">
-							</div>
-						
-							<div class="form-group col-md-6">
-								<label for="inputEmail"><strong>Correo Electronico</strong></label>
-								<input type="email" class="form-control" id="inputEmail" FormControlName="email" placeholder="escribe aqui tu email...">
-							</div>
-						</div>
-
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="inputPassword"><strong>Escribe cual sera tu contraseña</strong></label>
-								<input type="password" FormControlName="password" class="form-control" id="inputPassword" placeholder="escribe tu password...">
-							</div>
-
-							<div class="form-group col-md-6">
-								<label for="reinputPassword"><strong>Repite la contraseña</strong></label>
-								<input type="password" class="form-control" id="reinputPassword" placeholder="Password">
-							</div>
-						</div>
+				<p>Tienes tres opciones para registrarte en Agapea.com. Puedes hacerlo a través de las redes sociales Facebook o Google en 4 segundos. 
+						También puedes registrarte con nosotros en menos de 40 segundos. Tan solo rellena el formulario con tus datos.</p>
+				<hr>
+			<p>En ambos casos, recibirás un correo electrónico en tu cuenta con un enlace con el que confirmarás tus datos, y estarás disfrutando de nuestros servicios y ventajas. </p>
+		
 					</div>
+			</div>
 
-				</div>
+			<div class="row">
+					<div class="col">
+							
+							<form [formGroup]="miform" (ngSubmit)="registrarCliente()">
+									<div class="card">
+											<div class="card-body">
+													<h5 class="card-title">Datos de Mi Perfil...</h5>
+													<div class="form-row">
+															<div class="form-group col-md-6">
+																	<label for="inputLogin"><strong>Usuario (nickname)</strong></label>
+																	<input type="text" class="form-control" id="inputLogin" formControlName="login" placeholder="escribe aqui tu nick...">
+																	
+																	<span class="text-danger" *ngIf="! miform.controls['login'].pristine && miform.controls['login'].errors?.['required']">*Login obligatorio</span>
+															</div>
+													
+															<div class="form-group col-md-6">
+																	<label for="inputEmail"><strong>Correo Electronico</strong></label>
+																	<input type="email" class="form-control" id="inputEmail" formControlName="email" placeholder="escribe aqui tu email...">
 
-				<div class="card mt-3">
-					<div class="card-body">
-						<h5 class="card-title">Datos de Personales...</h5>
+																	<span class="text-danger" *ngIf="! miform.controls['email'].pristine && miform.controls['email'].errors?.['required']">*Email requerido</span>
+																	<span class="text-danger" *ngIf="! miform.controls['email'].pristine && miform.controls['email'].errors?.['email']">*Formato Email invalido</span>
 
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="inputNombre"><strong>Mi Nombre es:</strong></label>
-								<input type="text" FormControlName="nombre" class="form-control" id="inputNombre" placeholder="introduce tu nombre...">
-							</div>
-						
-							<div class="form-group col-md-6">
-								<label for="inputApellidos"><strong>Mis Apellidos son:</strong></label>
-								<input type="text" FormControlName="apellidos" class="form-control" id="inputApellidos" placeholder="introduce tus apellidos...">
-							</div>
-						</div>
+															</div>
+													</div>
 
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="inputNIF"><strong>NIF:</strong></label>
-								<input type="text" FormControlName="nif" class="form-control" id="inputNIF" placeholder="introduce tu NIF...">
-							</div>
-						
-							<div class="form-group col-md-6">
-								<label for="inputTelefono"><strong>un telefono de contacto:</strong></label>
-								<input type="text" FormControlName="telefono" class="form-control" id="inputTelefono" placeholder="introduce telefono de contacto...">
-							</div>
-						</div>
+													<div class="form-row">
+															<div class="form-group col-md-6">
+																	<label for="inputPassword"><strong>Escribe cual sera tu contraseña</strong></label>
+																	<input type="password" formControlName="password" class="form-control" id="inputPassword" placeholder="escribe tu password...">
+															</div>
 
-						<div class="form-group">
-							<label for="inputAddress"><strong>Direccion de envio:</strong></label>
-							<input type="text" FormControlName="calle" class="form-control" id="inputAddress" placeholder="c/nombre calle, numero, piso-letra">
-						</div>
+															<div class="form-group col-md-6">
+																	<label for="reinputPassword"><strong>Repite la contraseña</strong></label>
+																	<input type="password" formControlName="repassword" class="form-control" id="reinputPassword" placeholder="Password">
+															</div>
+													</div>
+											</div>
 
-						<div class="form-row">
-							<div class="form-group col-md-4">
-								<label for="inputProvincia"><strong>Provincia</strong></label>
-								<select id="inputProvincia" FormControlName="codpro" class="form-control">
-									<option value="0" selected>Elige provincia...</option>
-									<!-- 
-										 la vista recibe como modelo un array de objetos Provincia en la prop: listaprovs
-										 tendria q recorrerme este array con un bucle y por cada objeto del array crear un
-										 elemento HTML de tipo OPTION aqui en el select....
-										-->
-										<!--
-											TODO
-											Implementar listaProvincias
-										-->
-										<!--
-										{{#each listaProvincias as |unaprov| }}
-											<option value='{{unaprov.CodPro}}'>{{unaprov.NombreProvincia}}</option>
-										{{/each}}
-										-->
-									<option *ngFor="let unaprov of listProvs" [value]="unaprov.CodPro">
-										{{unaprov.NombreProvincia}}
-									</option>
-								</select>
-							</div>
-							<div class="form-group col-md-6">
-							<label for="inputLocalidad"><strong>Localidad</strong></label>
-							<select id="inputLocalidad" FormControlName="codmun" class="form-control" disabled>
-								<option value="0" selected>Elige localidad...</option>
-								<!-- 
-									cuando se dispare evento "change" sobre el dropdown provincias hacemos
-									pet.ajax para recuperar municipios de prov.seleccionada
-									!!!QUITAMOS ATRIBUTO DISABLED!!
-								-->
-								<option *ngFor="let unmuni of listaMunis" [value] = "unmuni.CodPro">
-									{{unmuni.NombreMunicipio}}
-								</option>
-							</select>
-							</div>
-							<div class="form-group col-md-2">
-							<label for="inputCP"><strong>CP</strong></label>
-							<input type="text" FormControlName="cp" class="form-control" id="inputCP">
-							</div>
-						</div>
+									</div>
 
+									<div class="card mt-3">
+											<div class="card-body">
+													<h5 class="card-title">Datos de Personales...</h5>
+
+													<div class="form-row">
+															<div class="form-group col-md-6">
+																	<label for="inputNombre"><strong>Mi Nombre es:</strong></label>
+																	<input type="text" formControlName="nombre" class="form-control" id="inputNombre" placeholder="introduce tu nombre...">
+															</div>
+													
+															<div class="form-group col-md-6">
+																	<label for="inputApellidos"><strong>Mis Apellidos son:</strong></label>
+																	<input type="text" formControlName="apellidos" class="form-control" id="inputApellidos" placeholder="introduce tus apellidos...">
+															</div>
+													</div>
+
+													<div class="form-row">
+															<div class="form-group col-md-6">
+																	<label for="inputNIF"><strong>NIF:</strong></label>
+																	<input type="text" formControlName="nif" class="form-control" id="inputNIF" placeholder="introduce tu NIF...">
+															</div>
+													
+															<div class="form-group col-md-6">
+																	<label for="inputTelefono"><strong>un telefono de contacto:</strong></label>
+																	<input type="text" formControlName="telefono" class="form-control" id="inputTelefono" placeholder="introduce telefono de contacto...">
+															</div>
+													</div>
+
+													<div class="form-group">
+															<label for="inputAddress"><strong>Direccion de envio:</strong></label>
+															<input type="text" formControlName="calle" class="form-control" id="inputAddress" placeholder="c/nombre calle, numero, piso-letra">
+													</div>
+
+													<div class="form-row">
+															<div class="form-group col-md-4">
+																	<label for="inputProvincia"><strong>Provincia</strong></label>
+																	<select id="inputProvincia" formControlName="codpro" class="form-control" (change)="cargaMunicipios()" >
+																			<option value="0" selected>Elige provincia...</option>
+																			<!-- 
+																				la vista recibe como modelo un array de objetos Provincia en la prop: listaprovs
+																				tendria q recorrerme este array con un bucle y por cada objeto del array crear un
+																				elemento HTML de tipo OPTION aqui en el select....
+																			-->
+																			<option *ngFor="let unaprov of listProvs" [value]="unaprov.CodPro" >
+																					{{unaprov.NombreProvincia}}
+																			</option>
+
+																	</select>
+															</div>
+															<div class="form-group col-md-6">
+															<label for="inputLocalidad"><strong>Localidad</strong></label>
+															<select id="inputLocalidad" formControlName="codmun" class="form-control" [attr.disabled]="listaMunis.length==0 ? '' : null">
+																	<option value="0" selected>Elige localidad...</option>
+																	<!-- 
+																			cuando se dispare evento "change" sobre el dropdown provincias hacemos
+																			pet.ajax para recuperar municipios de prov.seleccionada
+																			!!!QUITAMOS ATRIBUTO DISABLED!!
+																	-->
+																	<option *ngFor="let unmuni of listaMunis" [value]="unmuni.CodMun">
+																			{{unmuni.NombreMunicipio}}
+																	</option>
+															</select>
+															</div>
+															<div class="form-group col-md-2">
+															<label for="inputCP"><strong>CP</strong></label>
+															<input type="text" formControlName="cp" class="form-control" id="inputCP">
+															</div>
+													</div>
+
+											</div>
+
+
+									</div>
+
+									<div class="form-group">
+											<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="checkCondicionesUso">
+											<label class="form-check-label" for="checkCondicionesUso">
+													Acepto las Condiciones de uso y nuestra Politica de Cookies
+											</label>
+											</div>
+									</div>
+
+									<button type="submit" class="btn btn-primary" [disabled]="miform.status!=='VALID'">REGISTRARME</button>
+									<div>
+										{{miform.status}}
+									</div>
+							</form>
 					</div>
+			</div>
+
+	</div>  
 
 
-				</div>
+ 
 
-				<div class="form-group">
-					<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="checkCondicionesUso">
-					<label class="form-check-label" for="checkCondicionesUso">
-						Acepto las Condiciones de uso y nuestra Politica de Cookies
-					</label>
-					</div>
-				</div>
-
-				<button type="submit" class="btn btn-primary" >REGISTRARME</button>
-			</form>
-		</div>
-	</div>
-
-</div>  
-<script>
-	//---------cuando cambie provincia cargamos municipios de esa provincia, haciendo pet.ajax
-
-	document.getElementById('inputProvincia').addEventListener('change',(evt)=>{
-		if(evt.target.value!=0){   
-				//limpiamos los items del dropdown municipios....
-				Array.from(document.getElementById('inputLocalidad').getElementsByTagName('option'))
-					  .filter((el)=>el.getAttribute('value')!==0)
-					  .forEach((el)=>el.remove())
-				//-----------------------------------------------           
-				var _petAjax=new XMLHttpRequest();
-				_petAjax.open('GET','http://localhost:3000/api/getMunicipios/' + evt.target.value);
-				_petAjax.addEventListener('readystatechange',(eventoAjax)=>{
-						if(_petAjax.status==200 && _petAjax.readyState==4){
-								var _municipios=JSON.parse(_petAjax.responseText);
-
-								 document.getElementById('inputLocalidad').removeAttribute('disabled');
-
-								_municipios.forEach(
-									(muni)=>{
-										var _option=document.createElement('option');
-										_option.setAttribute('value',muni.CodMun);
-										_option.innerText=muni.NombreMunicipio;
-										document.getElementById('inputLocalidad').appendChild(_option);
-									}
-								);
-
-						}
-				});
-				_petAjax.send();
-
-		}
-
-	});
-
-</script>
-</body>

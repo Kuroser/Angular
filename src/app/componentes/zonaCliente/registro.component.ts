@@ -29,19 +29,30 @@ export class RegistroComponent implements OnInit {
 				\---> se asocia a un input         \---> se asocia a un input
 		*/
 		//TODO Agregar validators para todos los campos de registro
-		this.miform = new FormGroup(
-			{
-				login: new FormControl('',[Validators.required]),
-				email: new FormControl('',[Validators.required,Validators.email]),
-				password: new FormControl('',[Validators.required,Validators.minLength(8)]),
-				repassword: new FormControl('',[Validators.required,Validators.minLength(8)]),
-				nombre:   new FormControl('',[Validators.required]),
-				apellidos: new FormControl('',[Validators.required]),
-				nif:  new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{8}-?[a-zA-Z]$/)]),
-				telefono: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{9}$/)]),
-				calle: new FormControl('',[Validators.required])
-			}
-		);
+		this.miform=new FormGroup(
+      {
+        login: new FormControl('',[Validators.required]),
+        email: new FormControl('',[Validators.required,Validators.email]),
+        password: new FormControl('',[
+                                      Validators.required,
+                                      Validators.minLength(5),
+                                      Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$')
+                                    ]),                      
+        repassword: new FormControl('',[
+                                      Validators.required,
+                                      Validators.minLength(5),
+                                      Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$')
+                                    ]),
+        nombre: new FormControl('',[Validators.required]),
+        apellidos: new FormControl('',[Validators.required]),
+        nif: new FormControl('',[Validators.required,Validators.pattern('^[0-9]{8}-?[a-zA-Z]$')]),
+        telefono: new FormControl('',[Validators.required]),
+        calle: new FormControl('',[Validators.required]),
+        codpro: new FormControl('',[Validators.required]),
+        codmun: new FormControl('',[Validators.required]),
+        cp: new FormControl('',[ Validators.required, Validators.pattern('^[0-9]{5}$') ] )
+      }
+    );
 	}
 
 	ngOnInit(): void {
@@ -51,45 +62,60 @@ export class RegistroComponent implements OnInit {
 		//                                 la base de datos en firebase)
 		//Para ello necesitamos acceder a firebase:
 		this._accesoFirebase.devolverProvincias().subscribe(
-			datos => {this.listProvs=<IProvincia[]>datos}
-		);
-	}
-
-	cargaMunicipios(CodPro:number){
-		this._accesoFirebase.devolverMunicipios(CodPro).subscribe(
-			datos => {this.listaMunis=<IMunicipo[]>datos}
-		)
-	}
-	registrarCliente(){
-		let _valoresFormulario = this.miform.value;
-		let _nuevoCliente:ICliente = {
-			apellidos: _valoresFormulario.apellidos,
-			credenciales: {
-				login: _valoresFormulario.login,
-				cliente: _valoresFormulario.cliente,
-				email: _valoresFormulario.email,
-				password: _valoresFormulario.password
-			},
-			cuentaActiva: false,
-			direcciones: <IDireccion>{},
-			/*
-			direcciones:[
-				{
-					calle:_valoresFormulario.calle,
-					cp:_valoresFormulario.cp,
-					municipio: ,
-					provincia: 
+			datos => {
+				this.listProvs=<IProvincia[]>datos/*
+				var y:IProvincia;
+				console.log('Entra en bucle')
+				for(let x = 0 ; x < (<IProvincia[]>datos).length ; x++){
+					console.log(x,' ',this.listProvs[x].CodPro);
 				}
-			],*/
-			nif:_valoresFormulario.nif,
-			nombre:_valoresFormulario.nombre,
-			telefono: _valoresFormulario.telefono
-		}
-		console.log(_nuevoCliente);
-		this._accesoFirebase.registrarDatosCliente(_nuevoCliente).subscribe(
-			datos=>{
+				console.log('Sale de bucle');
+				console.log('Ha llamado correctamente a devolverProvincias()')*/;
 				console.log(datos);
 			}
 		);
+	}
+
+	cargaMunicipios(){
+		let _codprov = this.miform.controls['codpro'].value;
+    this._accesoFirebase.devolverMunicipios(_codprov).subscribe(
+      datos=> {
+                this.listaMunis=<IMunicipo[]>datos.filter( (muni:IMunicipo)=> muni.CodPro==_codprov);
+    }
+    )
+    console.log(this.miform.controls);
+	}
+
+	registrarCliente(){
+		let _valoresFormulario=this.miform.value;
+		let _nuevoCliente:ICliente={
+			  nombre: _valoresFormulario.nombre,
+			  apellidos: _valoresFormulario.apellidos,
+			  nif: _valoresFormulario.nif,
+			  telefono: _valoresFormulario.telefono,
+			  credenciales: {
+							  login: _valoresFormulario.login,
+							  email: _valoresFormulario.email,
+							  password: _valoresFormulario.password,
+							  imagenAvatar: '',
+							  cuentaActiva: false
+			  },
+			  direcciones:[
+				  {
+				  calle: _valoresFormulario.calle,
+				  cp: _valoresFormulario.cp,
+				  provincia:  this.listProvs.filter( (prov:IProvincia)=> prov.CodPro==_valoresFormulario.codpro )[0],
+				  municipio: this.listaMunis.filter( (muni:IMunicipo)=> muni.CodPro==_valoresFormulario.codpro && muni.CodMun==_valoresFormulario.codmun)[0]
+				  
+				}
+			  ]
+			}
+			console.log(_nuevoCliente);
+			this._accesoFirebase.registrarDatosCliente(_nuevoCliente).subscribe(
+				datos=>{
+					console.log(datos);
+					this._router.navigateByUrl('/Cliente/Login');					
+				}
+			);
 	}
 }

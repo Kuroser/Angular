@@ -20,12 +20,16 @@ import { LoginComponent } from './componentes/zonaCliente/login.component';
 
 //--------------- importacion de servicios a nivel app ----------------------
 import { CloudfirebaseService } from './servicios/cloudfirebase.service';
+import { RegistroOkComponent } from './componentes/zonaCliente/registro-ok.component';
+import { TiendaComponent } from './componentes/zonaTienda/tienda.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistroComponent,
-    LoginComponent
+    LoginComponent,
+    RegistroOkComponent,
+    TiendaComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),

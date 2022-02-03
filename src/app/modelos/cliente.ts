@@ -8,9 +8,8 @@ export interface ICliente {
     telefono: number;
     imagenAvatar?: string;
     descripcion?: string;
-    cuentaActiva: boolean;
     credenciales: ICredenciales;
-    direcciones: IDireccion;
+    direcciones: IDireccion[];
     uid?: string;
     
 }

@@ -9,8 +9,8 @@ export const environment = {
 		projectId: "agapeaangular-b7bb6",
 		storageBucket: "agapeaangular-b7bb6.appspot.com",
 		messagingSenderId: "937841281730",
-		appId: "1:937841281730:web:4a229cae341143636dc95b",
-		measurementId: "G-GD9SV84DZJ"
+  		appId: "1:937841281730:web:4a229cae341143636dc95b",
+  		measurementId: "G-GD9SV84DZJ"
 	},
 	production: false
 };
