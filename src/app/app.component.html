@@ -14,5 +14,116 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<header>
+    <div class="container">
+        <div class="row">
+            <!-- botones de contacto y login/acceso a panel de usuario si esta usuario logueado -->
+            <div class="col-9" style="background-color:black"></div>
+            <div class="col-3" style="background-color:black">
 
-<router-outlet></router-outlet>
+                <!-- link acceso al panel Cliente o login en funcion si se le pasa desde el controlador variable de sesion a la vista...-->
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a href="#" class="btn btn-dark btn-sm">
+                        <img src="../../assets/images/botonMINIcontacto.png">
+                    </a>
+                    <!-- 
+                    {{#if this.cliente}}
+                        <a href="http://localhost:3000/Cliente/Panel/MiPerfil" class="btn btn-dark btn-lg">
+                            Mi Cuenta, {{this.cliente.credenciales.email}}
+                        </a>
+                    {{else}}
+                        <a href="http://localhost:3000/Cliente/Login" class="btn btn-dark btn-sm">
+                            <img src="../../assets/images/botonMINIlogin.png">
+                        </a>
+                    {{/if}}
+                    -->
+                     
+                    <a [routerLink]="['/Cliente/Login']" routerLinkActive="router-link-active" class="btn btn-dark btn-sm">
+                        <img src="../../assets/images/botonMINIlogin.png">
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="background-color:rgb(237,237,237)">
+            <div class="col-md-4">
+                <!-- imagen de agapea mini -->
+                <img src="../../assets/images/logo_Agapea_layout.png" />
+            </div>
+
+            <div class="col-md-6">
+                <!-- formulario de busqueda de libros -->
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Buscar por libro,autor,isbn..." aria-label="Buscar por libro,autor,isbn..." aria-describedby="botonBuscar">
+                    <div class="input-group-append">
+                        <a class="btn btn-outline-primary"
+                           id="botonBuscar"
+                           [routerLink]="['/Tienda/BuscarLibros']"
+                           routerLinkActive="router-link-active">
+
+                            <img src="../../assets/images/boton_BuscarLibros.png" />
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <!-- mini carrito -->
+                <a [routerLink]="['/Tienda/MostrarPedido']" routerLinkActive="router-link-active" class="btn btn-light">
+                    <img src="../../assets/images/boton_mini_carrito.png" />
+                    <span class="badge badge-danger">0</span>
+                    <small>Total:</small>
+                    <img src="../../assets/images/boton_flecha_minicarrito.png" />
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+
+            <!-- treeview de materias de libros 
+            {{#unless this.listaOpcCliente}}
+                <div class="list-group">
+                    {{#each this.conjuntomaterias as |unamateria|}}
+                        <a class="list-group-item list-group-item-action"
+                        href="http://localhost:3000/Tienda/Libros/{{unamateria.IdMateria}}">
+                            {{split unamateria.NombreMateria ';' 0}}
+                        </a>                        
+                    {{/each}}
+                </div>
+            {{else}}
+                <div class="list-group">
+                    {{#each this.listaOpcCliente as |opcCliente|}}
+                        <a class="list-group-item list-group-item-action"
+                        href="http://localhost:3000/Cliente/Panel/{{split opcCliente '-' 1}}">
+                            {{split opcCliente '-' 0}}
+                        </a>                        
+                    {{/each}}
+                </div>
+            {{/unless}}
+            -->
+
+
+        </div>
+
+        <div class="col-10">         
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <small>&copy;  Agapea CLASE S.A. 2020. Reservados todos los derechos </small>
+            </div>
+        </div>
+    </div>
+</footer> 

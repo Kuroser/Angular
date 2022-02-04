@@ -22,6 +22,8 @@ import { LoginComponent } from './componentes/zonaCliente/login.component';
 import { CloudfirebaseService } from './servicios/cloudfirebase.service';
 import { RegistroOkComponent } from './componentes/zonaCliente/registro-ok.component';
 import { TiendaComponent } from './componentes/zonaTienda/tienda.component';
+import { IndexedDBService } from './servicios/indexed-db.service';
+import { LibrosComponent } from './componentes/zonaTienda/libros.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { TiendaComponent } from './componentes/zonaTienda/tienda.component';
     RegistroComponent,
     LoginComponent,
     RegistroOkComponent,
-    TiendaComponent
+    TiendaComponent,
+    LibrosComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -41,7 +44,10 @@ import { TiendaComponent } from './componentes/zonaTienda/tienda.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [CloudfirebaseService],
+  providers: [
+    CloudfirebaseService,
+    IndexedDBService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { } 

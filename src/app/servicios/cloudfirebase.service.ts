@@ -29,6 +29,9 @@ export class CloudfirebaseService {
 									.valueChanges()
 	}
 
+	devolverLibros():Observable<any> {
+		return this._db.collection('municipios').valueChanges();
+	}
 	
 	registrarDatosCliente(nuevoCliente:ICliente): Observable<any> {
 		 /*pasos: 
