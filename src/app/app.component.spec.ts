@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import { AppComponent } from './componentes/app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'AgapeaAngular2'`, () => {
+  it(`should have as title 'AgapeaAngular'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('AgapeaAngular2');
+    expect(app.title).toEqual('AgapeaAngular');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('AgapeaAngular2 app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('AgapeaAngular app is running!');
   });
 });

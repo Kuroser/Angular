@@ -1,0 +1,40 @@
+<!--
+    minivista para representar los datos de un objeto Libro
+    con su imagen, titulo, .... y un boto COMPRAR
+-->
+
+<!--
+    Copiar minilibro.component y libros.component de pablo
+-->
+
+
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="../../../assets/images/imagenLibro.png" class="card-img" />
+            <!--<a [routerLink]="['/Pedido/AddLibroPedido', this.libroApintar?.ISBN]" routerLinkActive="router-link-active" class="btn btn-primary-sm">
+                <img src="../../../assets/images/BotonComprar.png" />
+            </a>-->
+            <button class="btn btn-primary-sm" type="button" (click)="comprarLibro(this.libroApintar)">
+                <img src="../../../assets/images/BotonComprar.png" />
+            </button>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card-body">
+                <!-- titulo del libro como un link a vista mostrar sus detalles-->
+                <h5 class="card-title">
+                    <a [routerLink]="['/Tienda/MostrarLibro', this.libroApintar?.ISBN]" routerLinkActive="router-link-active">
+                        {{this.libroApintar?.Titulo}}
+                    </a>
+                </h5>
+
+                <p class="card-text">{{this.libroApintar?.Autor}}</p>
+                <p class="card-text">{{this.libroApintar?.Editorial}}</p>
+                <p class="card-text"><small class="text-muted">{{this.libroApintar?.NumeroPaginas}} paginas</small></p>
+                <p class="card-text"><b>{{this.libroApintar?.Precio}} €</b></p>
+                
+            </div>
+        </div>
+    </div>
+  </div>

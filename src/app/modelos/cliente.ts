@@ -1,15 +1,12 @@
-import { ICredenciales} from "./credenciales";
+import { ICredenciales } from "./credenciales";
 import { IDireccion } from "./direccion";
 
 export interface ICliente {
     nombre: string;
     apellidos: string;
     nif: string;
-    telefono: number;
-    imagenAvatar?: string;
-    descripcion?: string;
+    telefono: string;
     credenciales: ICredenciales;
-    direcciones: IDireccion[];
+    direcciones: Array<IDireccion>;
     uid?: string;
-    
 }

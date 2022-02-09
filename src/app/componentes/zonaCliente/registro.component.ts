@@ -1,35 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IMunicipo } from 'src/app/modelos/municipio';
-import { IProvincia } from 'src/app/modelos/provincia';
-import { ICliente } from 'src/app/modelos/cliente';
-import { CloudfirebaseService } from 'src/app/servicios/cloudfirebase.service';
-import { IDireccion } from 'src/app/modelos/direccion';
 import { Router } from '@angular/router';
+import { ICliente } from 'src/app/modelos/cliente';
+import { IMunicipio } from 'src/app/modelos/municipio';
+import { IProvincia } from 'src/app/modelos/provincia';
+import { CloudfirebaseService } from 'src/app/servicios/cloudfirebase.service';
 
 @Component({
-	selector: 'app-registro',
-	templateUrl: '../../vistas/zonaCliente/registro.component.html',
-	styleUrls: ['../../vistas/zonaCliente/css/registro.component.css']
+  selector: 'app-registro',
+  templateUrl: '../../vistas/zonaCliente/registro.component.html',
+  styleUrls: ['../../vistas/zonaCliente/css/registro.component.css']
 })
 export class RegistroComponent implements OnInit {
-	//Las propiedades públicas de la clase pueden ser accedidasd desde la vista.
-	public listProvs:Array<IProvincia>=[];
-	public miform:FormGroup;
-	public listaMunis:Array<IMunicipo>=[];
+ 
+  //las props.publicas de la clase pueden ser accedidas desde la vista....  
+  public miform:FormGroup;
+  public listaProvs:Array<IProvincia>=[];
+  public listaMunis:Array<IMunicipio>=[];
+  
 
-	constructor(private _accesoFirebase: CloudfirebaseService,private _router:Router) {
-		/*
-			Creamos el formulario y los controles que vamos a mapear contra
-			elementos del Dom de la vista registro.component.html
-			========
-			Creamos una instancia de 'FormGroup' en el constructor al cual hay que pasar un
-			objeto con el siguiente formato:
-			{clave_control: new FormControl(), clavecontrol: new FormControl(), ......}
-				\---> se asocia a un input         \---> se asocia a un input
-		*/
-		//TODO Agregar validators para todos los campos de registro
-		this.miform=new FormGroup(
+
+  constructor(private _accesoFirebase: CloudfirebaseService, private _router:Router) {
+    //....nos creamos el formulario y los controles q vamos a mapear contra elemetos del DOM de la vista
+    //.... registro.component.html
+    // nos creamos una instancia de FormGroup en el constructor le tienes q pasar un objeto con este formato:
+    //{  clave_control: new FormControl(), clave_control: new FormControl(), ....}
+    //   -------------                     --------------
+    //      \--> se asocia a un input           \----> se asocia a un input 
+
+    this.miform=new FormGroup(
       {
         login: new FormControl('',[Validators.required]),
         email: new FormControl('',[Validators.required,Validators.email]),
@@ -53,69 +52,72 @@ export class RegistroComponent implements OnInit {
         cp: new FormControl('',[ Validators.required, Validators.pattern('^[0-9]{5}$') ] )
       }
     );
-	}
 
-	ngOnInit(): void {
-		//metodo que se lanza tras el constructor y del DOm de la vista del componente
-		//esta........
-		//Inicializamos variable listProvs(No testeable hasta que cree
-		//                                 la base de datos en firebase)
-		//Para ello necesitamos acceder a firebase:
-		this._accesoFirebase.devolverProvincias().subscribe(
-			datos => {
-				this.listProvs=<IProvincia[]>datos/*
-				var y:IProvincia;
-				console.log('Entra en bucle')
-				for(let x = 0 ; x < (<IProvincia[]>datos).length ; x++){
-					console.log(x,' ',this.listProvs[x].CodPro);
-				}
-				console.log('Sale de bucle');
-				console.log('Ha llamado correctamente a devolverProvincias()')*/;
-				console.log(datos);
-			}
-		);
-	}
 
-	cargaMunicipios(){
-		let _codprov = this.miform.controls['codpro'].value;
+   }
+
+  ngOnInit(): void {
+    //metodo q se lanza tras el constructor y el DOM de la vista del componente esta creada
+    //...inicializamos variable:  listProvs
+    //para lo cual necesitamos acceder a firebase
+
+      this._accesoFirebase.devolverProvincias().subscribe(
+        datos => this.listaProvs=<IProvincia[]>datos
+      );
+  }
+
+  cargaMunicipios(){
+    //este metodo se va a ejecutar cada vez q se dispare evento "change" sobre el select-provincias
+    let _codprov=this. miform.controls['codpro'].value;
+    
     this._accesoFirebase.devolverMunicipios(_codprov).subscribe(
       datos=> {
-                this.listaMunis=<IMunicipo[]>datos.filter( (muni:IMunicipo)=> muni.CodPro==_codprov);
-    }
+                this.listaMunis=<IMunicipio[]>datos.filter( (muni:IMunicipio)=> muni.CodPro==_codprov);
+              }
     )
-    console.log(this.miform.controls);
-	}
+  }
 
-	registrarCliente(){
-		let _valoresFormulario=this.miform.value;
-		let _nuevoCliente:ICliente={
-			  nombre: _valoresFormulario.nombre,
-			  apellidos: _valoresFormulario.apellidos,
-			  nif: _valoresFormulario.nif,
-			  telefono: _valoresFormulario.telefono,
-			  credenciales: {
-							  login: _valoresFormulario.login,
-							  email: _valoresFormulario.email,
-							  password: _valoresFormulario.password,
-							  imagenAvatar: '',
-							  cuentaActiva: false
-			  },
-			  direcciones:[
-				  {
-				  calle: _valoresFormulario.calle,
-				  cp: _valoresFormulario.cp,
-				  provincia:  this.listProvs.filter( (prov:IProvincia)=> prov.CodPro==_valoresFormulario.codpro )[0],
-				  municipio: this.listaMunis.filter( (muni:IMunicipo)=> muni.CodPro==_valoresFormulario.codpro && muni.CodMun==_valoresFormulario.codmun)[0]
-				  
-				}
-			  ]
-			}
-			console.log(_nuevoCliente);
-			this._accesoFirebase.registrarDatosCliente(_nuevoCliente).subscribe(
-				datos=>{
-					console.log(datos);
-					this._router.navigateByUrl('/Cliente/Login');					
-				}
-			);
-	}
+  registrarCliente(){
+    //a partir de los valores de cada FormControl del formulario me tengo q construir un objeto ICliente
+    //y almacenarlo en firebase...
+    
+
+    
+    let _valoresFormulario=this.miform.value;
+    let _nuevoCliente:ICliente={
+          nombre: _valoresFormulario.nombre,
+          apellidos: _valoresFormulario.apellidos,
+          nif: _valoresFormulario.nif,
+          telefono: _valoresFormulario.telefono,
+          credenciales: {
+                          login: _valoresFormulario.login,
+                          email: _valoresFormulario.email,
+                          password: _valoresFormulario.password,
+                          imagenAvatar: '',
+                          cuentaActiva: false
+          },
+          direcciones:[
+            {
+              calle: _valoresFormulario.calle,
+              cp: _valoresFormulario.cp,
+              provincia:  this.listaProvs.filter( (prov:IProvincia)=> prov.CodPro==_valoresFormulario.codpro )[0],
+              municipio: this.listaMunis.filter( (muni:IMunicipio)=> muni.CodPro==_valoresFormulario.codpro && muni.CodMun==_valoresFormulario.codmun)[0]
+              
+            }
+          ]
+
+    }
+    
+    console.log(_nuevoCliente);
+    this._accesoFirebase.registrarDatosCliente(_nuevoCliente).subscribe(
+      datos=>{
+        //en datos hay un objeto firebase de la clase firebase.auth.UserCredential
+          console.log(datos);
+          this._router.navigate(['/Cliente/Login']);
+
+      }
+    )
+
+
+    }
 }

@@ -1,0 +1,10 @@
+<div class="list-group">
+    <a *ngFor="let opc of listaOpcPanel" 
+        class="list-group-item list-group-item-action"
+        [routerLink]="['/Cliente/Panel',opc.split('-')[1]]"
+        routerLinkActive="router-link-active" >
+        
+        {{opc.split('-')[0]}}
+
+    </a>                        
+</div>

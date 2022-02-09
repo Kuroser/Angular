@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subscribable, Subscriber } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ICliente } from '../modelos/cliente';
 import { IToken } from '../modelos/token';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class IndexedDBService {
 
-	constructor() {
-
-	}
-	devuelveToken():Observable<IToken>{
-		return new Observable<IToken>(
+  constructor() { }
+  
+  devuelveToken():Observable<IToken>{
+    
+    return new Observable<IToken>(
       (subscriber)=>{
         let _request:IDBOpenDBRequest=window.indexedDB.open('firebaseLocalStorageDb');
   
@@ -53,41 +53,48 @@ export class IndexedDBService {
       
       }
     );
-	}
-	almacenaCliente(datosCliente:ICliente,token:IToken){
-		try{
-			let _reqDb:IDBOpenDBRequest=window.indexedDB.open('clientes');
-			_reqDb.addEventListener('upgradeneeded',(ev)=>{
-				let _db:IDBDatabase=_reqDb.result;
-				let _store:IDBObjectStore=_db.createObjectStore('infoClientes',{keyPath:'nif'});
-				_store.createIndex('nif','nif');
-				
-			})
-			_reqDb.addEventListener('success',(ev)=>{
-				let _db:IDBDatabase=_reqDb.result;
-				let _transac:IDBTransaction=_db.transaction(['infoClientes','tokens'],'readwrite');
-				let _insertReq:IDBRequest=_db
-											.transaction(['infoClientes'],'readwrite')
-											.objectStore('infoClientes')
-											.add(datosCliente);
-				_insertReq.addEventListener('success',(ev)=>{
-					console.log('datos almacenados del cliente ok en indexedDB');
-				});
 
-				_insertReq.addEventListener('error',(ev)=>{
-					console.log('Algo ha salido mal al insertar el cliente en indexedDB');
-				});
-				let _insertJWT:IDBRequest=_transac.objectStore('tokens').add(token);
-				_insertJWT.addEventListener('success',(ev)=>{
-					console.log('datos almacenados del JWT ok en indexedDB');
-				})
-				_insertJWT.addEventListener('error',(err)=>{throw err});
-			});
-			_reqDb.addEventListener('error',(ev)=>{
+  }
 
-			});
-		} catch(error){
+  almacenaClienteJWT(datosCliente:ICliente, token:IToken){
+    try {
+      let _reqDb:IDBOpenDBRequest=window.indexedDB.open('clientes');
+      _reqDb.addEventListener('upgradeneeded',(ev)=>{
+            let _db:IDBDatabase=_reqDb.result;
+            let _store:IDBObjectStore=_db.createObjectStore('infoClientes',{keyPath:'nif'});
+            _store.createIndex('nif','nif');
 
-		}
-	}
+            let _store2:IDBObjectStore=_db.createObjectStore('tokens',{keyPath:'email'});
+            _store2.createIndex('email','email');
+      });
+
+      _reqDb.addEventListener('success',(ev)=>{
+        //lanzo una transaccion sobre coleccion infoClientes para grabar documento "datosCliente"
+        // y sobre tokens para grabar documento IToken
+
+            let _db:IDBDatabase=_reqDb.result;
+            let _transac:IDBTransaction=_db.transaction(['infoClientes','tokens'],'readwrite');
+            
+            //1º operacion sobre transaccion...
+            let _insertReq:IDBRequest=_transac.objectStore('infoClientes').add(datosCliente);
+            _insertReq.addEventListener('success',(ev)=>console.log('datos almacenados del cliente ok en indexedDB'));
+            _insertReq.addEventListener('error',(err)=>{throw err});
+
+            //2ºoperacion sobre transaccion...
+            let _insertJWT:IDBRequest=_transac.objectStore('tokens').add(token);
+            _insertJWT.addEventListener('success',(ev)=>console.log('datos almacenados del JWT ok en indexedDB'));
+            _insertJWT.addEventListener('error',(err)=>{throw err});
+
+            
+
+      });
+      _reqDb.addEventListener('error',(err)=>{throw err;})
+      
+    } catch (error) {
+      console.log('error a la hora de almacenar datos cliente en indexedDb...', error);
+    }
+
+
+  }
+  
 }

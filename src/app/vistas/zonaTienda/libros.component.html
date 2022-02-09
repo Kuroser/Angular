@@ -1,1 +1,6 @@
-<p>libros works!</p>
+<!-- pintar lista de libros del componente recibida desde firebase-->
+<div class="row row-cols-1 row-cols-md-3" *ngFor="let tupla of this.listaTuplasLibros">
+  <div class="col" *ngFor="let libro of tupla">
+    <app-minilibro [libroApintar]="libro" (libroAComprar)="prepararCompra(libro)"></app-minilibro>
+  </div>
+</div>

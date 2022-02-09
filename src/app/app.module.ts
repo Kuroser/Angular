@@ -7,32 +7,38 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //modulos de firebase....
-
 import { AngularFireModule } from '@angular/fire/compat'; //<--- establece conexion contra firebase
 import { AngularFireAuthModule } from '@angular/fire/compat/auth'; //<---modulo para registro/autentificacion/autorizacion usuarios
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';//<----modulo para subida de ficheros a firebase
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';//<--- modulo para CRUD contra colecciones del Cloud-Storage
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; //<----modulo para subida de ficheros a firebase
+import { AngularFireStorageModule } from '@angular/fire/compat/storage'; //<--- modulo para CRUD contra colecciones del Cloud-Storage
 
 //--------------- importacion componentes a nivel app ----------------------
-import { AppComponent } from './app.component';
+import { AppComponent } from './componentes/app.component';
 import { RegistroComponent } from './componentes/zonaCliente/registro.component';
 import { LoginComponent } from './componentes/zonaCliente/login.component';
+import { RegistrookComponent } from './componentes/zonaCliente/registrook.component';
+import { LibrosComponent } from './componentes/zonaTienda/libros.component';
+import { OpcionespanelmateriasComponent } from './componentes/zonaTienda/opcionespanelmaterias.component';
+import { OpcionespanelclienteComponent } from './componentes/zonaCliente/opcionespanelcliente.component';
+import { MinilibroComponent } from './componentes/zonaTienda/minilibro.component';
 
 //--------------- importacion de servicios a nivel app ----------------------
 import { CloudfirebaseService } from './servicios/cloudfirebase.service';
-import { RegistroOkComponent } from './componentes/zonaCliente/registro-ok.component';
-import { TiendaComponent } from './componentes/zonaTienda/tienda.component';
 import { IndexedDBService } from './servicios/indexed-db.service';
-import { LibrosComponent } from './componentes/zonaTienda/libros.component';
+import { ControlpedidoService } from './servicios/controlpedido.service';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistroComponent,
     LoginComponent,
-    RegistroOkComponent,
-    TiendaComponent,
-    LibrosComponent
+    RegistrookComponent,
+    LibrosComponent,
+    OpcionespanelmateriasComponent,
+    OpcionespanelclienteComponent,
+    MinilibroComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -46,8 +52,9 @@ import { LibrosComponent } from './componentes/zonaTienda/libros.component';
   ],
   providers: [
     CloudfirebaseService,
-    IndexedDBService
+    IndexedDBService,
+    ControlpedidoService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { } 
+export class AppModule { }

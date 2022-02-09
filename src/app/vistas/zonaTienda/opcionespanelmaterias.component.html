@@ -1,0 +1,11 @@
+<div class="list-group">
+    <a *ngFor="let materia of listaMaterias" 
+        class="list-group-item list-group-item-action"
+        [routerLink]="['/Tienda/Libros', materia.NombreMateria.split(';')[1], materia.IdMateria]"
+        routerLinkActive="router-link-active">
+            
+        {{materia.NombreMateria.split(';')[0]}}
+       
+    </a>                        
+</div>
+

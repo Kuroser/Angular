@@ -1,68 +1,72 @@
-<body>
 <div class="container">
-	<div class="row">
-		<div class="col">
-			<img src="./../../assets/images/cabecera.png">
-		</div>
-	</div>
-	<div class="row">
-		<div class="col">
-			<h3><strong>Acceso a agapea.com</strong></h3>
-			<p>Para poder disfrutar de algunos de nuestros servicios, debes estar registrado. Registrarse en apapea.com es rapido y facil y GRATIS!</p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-4">
-			<div>
-				<h3>Identificate con...</h3><br />
-				<a href="">
-					<img src="./../../assets/images/boton_Google.png" />
-				</a>
-				<small>o bien con tu usuario de agapea</small>
-			</div>
-			<form [formGroup]="formLogin" (ngSubmit)="Login()">
-				<div class="form-group">
-					<label for="email"><strong>Correo Electronico:</strong></label>
-					<input id="email" type="email" formControlName="email" class="form-control" placeholder="inicia sesion con tu email" />
-					<span class="text-danger" *ngIF="!formLogin.controls['email'].errors?.['required']">
-						Email obligatorio*
-					</span>
-					<span class="text-danger" *ngIF="!formLogin.controls['email'].errors?.['email']">
-						Email no válido*
-					</span>
-				</div>
-				<div class="form-group">
-					<label for="password"><strong>Contraseña:</strong></label>
-					<input id="password" type="password" formControlName="password" class="form-control" placeholder="introduce tu password" />
-					<span class="text-danger" *ngIF="!formLogin.controls['password'].errors?.['required']">
-						Contraseña obligatoria*
-					</span>
-					<span class="text-danger" *ngIF="!formLogin.controls['password'].errors?.['minLength']">
-						Contraseña demasiado corta. Debe tener al menos 8 caracteres*
-					</span>
-					
-					<a href="http://localhost:3000/Cliente/CompruebaEmail" style="color:cornflowerblue">Olvido su contraseña?</a>
-				</div>
-				
-			<!--
-				cuando hago click en enlace q simula boton provoco submit del formulario
-				OJO!! no es conveniente poner sentencias javascript dentro de tags html
-			-->
-			<!--
-				<a href="javascript:;" onclick="document.forms['formlogin'].submit()" class="btn btn-primary">
-					<img src="./../../assets/images/BotonLoginUsuario.png" />
-				</a>
-			-->
-				<button type="submit" class="btn btn-primary">
-					<img src="./../../assets/images/BotonLoginUsuario.png" />
-				</button>
-			</form>
-		</div>
-		<div class="col-8">
-			<img src="./../../assets/images/formLogin.png"/>
-			<a [routerLink]="['/Cliente/Registro']" routerLinkActive="router-link-active">
-				<img src="./../../assets/images/BotonRegistrarUsuario.png" />
-			</a>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col">
+            <img src="../../../assets/images/cabecera.png">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h3><strong>Acceso a agapea.com</strong></h3>
+            <p>Para poder disfrutar de algunos de nuestros servicios, debes estar registrado. Registrarse en apapea.com es rapido y facil y GRATIS!</p>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-4">
+            <div>
+                <h3>Identificate con...</h3><br />
+                <a href="">
+                    <img src="../../../assets/images/boton_Google.png" />
+                </a>
+                <small>o bien con tu usuario de agapea</small>
+            </div>
+
+            <form [formGroup]="formLogin" (ngSubmit)="Login()" id="formlogin">
+                <div class="form-group">
+                    <label for="email"><strong>Correo Electronico:</strong></label>
+                    <input id="email" type="email" formControlName="email" class="form-control" placeholder="inicia sesion con tu email" />
+
+                    <!-- control mensajes error validaciones-->
+                    <span class="text-danger" *ngIf="! formLogin.controls['email'].pristine &&  formLogin.controls['email'].errors?.['required']">*Email obligatorio</span>
+                    <span class="text-danger" *ngIf="! formLogin.controls['email'].pristine &&  formLogin.controls['email'].errors?.['email']">*formato Email invalido</span>
+
+                  </div>
+
+                <div class="form-group">
+                    <label for="password"><strong>Contraseña:</strong></label>
+                    <input id="password" type="password" formControlName="password" class="form-control" placeholder="introduce tu password" />
+
+                    <!-- control mensajes error validaciones-->
+                    <span class="text-danger" *ngIf="! formLogin.controls['password'].pristine &&  formLogin.controls['password'].errors?.['required']">*Password obligatorio</span>
+                    <span class="text-danger" *ngIf="! formLogin.controls['password'].pristine &&  formLogin.controls['password'].errors?.['minLength']">*Password debe tener al menos 5 caracteres</span>
+                    <span class="text-danger" *ngIf="! formLogin.controls['password'].pristine &&  formLogin.controls['password'].errors?.['pattern']">*Password debe tener Mays,Mins,number, alfanum</span>
+
+                    <a href="http://localhost:3000/Cliente/CompruebaEmail" style="color:cornflowerblue">Olvido su contraseña?</a>
+                </div>
+
+                <!--
+               cuando hago click en enlace q simula boton provoco submit del formulario
+                OJO!! no es conveniente poner sentencias javascript dentro de tags html
+
+                <a  onclick="document.forms['formlogin'].submit()" class="btn btn-primary">
+                    <img src="../../../assets/images/BotonLoginUsuario.png" />
+                </a>
+            -->
+                <button type="submit" class="btn btn-primary">INICIA SESION</button>
+
+            </form>
+
+
+        </div>
+
+        <div class="col-8">
+            <img src="../../../assets/images/formLogin.png" />
+            <a [routerLink]="['/Cliente/Registro']" routerLinkActive="router-link-active">
+                <img src="../../../assets/images/BotonRegistrarUsuario.png" />
+            </a>
+        </div>
+    </div>
 </div>

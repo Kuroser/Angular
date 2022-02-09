@@ -1,5 +1,5 @@
-export interface IMunicipo {
-    CodMun: number;
+export interface IMunicipio {
     CodPro: number;
-    NombreMunicipio: number;
+    CodMun: number;
+    NombreMunicipio: string;
 }

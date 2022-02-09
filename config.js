@@ -12,8 +12,8 @@ const firebaseConfig = {
   projectId: "agapeaangular-b7bb6",
   storageBucket: "agapeaangular-b7bb6.appspot.com",
   messagingSenderId: "937841281730",
-  appId: "1:937841281730:web:eed722ac24a66ad16dc95b",
-  measurementId: "G-CYWH23GJFF"
+  appId: "1:937841281730:web:4a229cae341143636dc95b",
+  measurementId: "G-GD9SV84DZJ"
 };
 
 // Initialize Firebase
